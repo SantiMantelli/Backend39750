@@ -52,27 +52,27 @@ const product = new ProductManager ()
 
 product.addProduct({
     title:`Toyota Hilux`,
-    description:`Descripcion de la toyota`,
+    description:`Cero kilómetros, versión SRX, caja automática.`,
     price: 45000,
-    thumbnail: `link img`,
+    thumbnail: `https://acroadtrip.blob.core.windows.net/catalogo-imagenes/xl/RT_V_5f4024782d854ab3a56779e286268878.webp`,
     code: `A001`,
     stock: 5
 })
 
 product.addProduct({
     title:`Toyota Corolla`,
-    description:`Descripcion del Corolla`,
+    description:`Año 2022, 12.000 kilómetros, versión SEG CVT`,
     price: 30000,
-    thumbnail: `link img`,
+    thumbnail: `https://media.toyota.com.ar/12d01c73-22b1-4025-8612-13f06bb8923d.png`,
     code: `A002`,
     stock: 7
 })
 
 console.log(product.addProduct({
     title:`Ford F150`,
-    description:`Descripcion de la F150`,
+    description:`Cero kilómetros, versión F150 LARIAT`,
     price: 70000,
-    thumbnail: `link img`,
+    thumbnail: `https://acroadtrip.blob.core.windows.net/catalogo-imagenes/s/RT_V_c0403804a1054bf5964f31dccff67a10.jpg`,
     code: `A003`,
     stock: 2
 }))

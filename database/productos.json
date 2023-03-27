@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "Toyota Hilux",
+    "description": "Cero kilómetros, versión SRX, caja automática.",
+    "price": 45000,
+    "thumbnail": "https://acroadtrip.blob.core.windows.net/catalogo-imagenes/xl/RT_V_5f4024782d854ab3a56779e286268878.webp",
+    "code": "A001",
+    "stock": 5
+  },
+  {
+    "id": 3,
+    "title": "Ford F150",
+    "description": "Cero kilómetros, versión F150 LARIAT",
+    "price": 70000,
+    "thumbnail": "https://acroadtrip.blob.core.windows.net/catalogo-imagenes/s/RT_V_c0403804a1054bf5964f31dccff67a10.jpg",
+    "code": "A003",
+    "stock": 2
+  }
+]

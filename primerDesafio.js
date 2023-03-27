@@ -1,7 +1,16 @@
+const fs = require("fs")
+
 class ProductManager {
     constructor() {
         this.products = []
+        this.path = "./database/productos.json"
     }
+
+    appendProduct = async () => {
+        const toJSON = JSON.stringify(this.products, null, 2);
+        await fs.promises.writeFile(this.path, toJSON)
+    };
+
     addProducts = (title, description, price, thumbnail, code, stock) => {
         const product = {
             title,
@@ -33,23 +42,60 @@ class ProductManager {
             let product = this.products.find(prod => prod.code === newProduct.code)
             if (product) return `Ya existe un producto con este codigo`
 
-        return this.products.push({id: this.products.length+1, ...newProduct})
+        return this.products.push({id: this.products.length+1, ...newProduct}) &&
+        this.appendProduct()
     }
 
-    getProducts(){
-        return this.products
-    }
+    getProducts = async () => {
+        try {
+        const productosDb = await fs.promises.readFile(this.path, "utf-8");
+        console.log(productosDb);
+        } catch (err) {
+        console.log(err);
+        }
+    };
 
-    getProductById(id){
-        let product = this.products.find(prod => prod.id === id)
-        if (!product) return `Producto inexistente`
-        return product
+    getProductById = async (id) => {
+        try {
+        const productosDb = await fs.promises.readFile(this.path, "utf-8");
+        const productoId = JSON.parse(productosDb);
+        console.log(productoId[id - 1]);
+        } catch (err) {
+        console.log(err);
+        }
+}
+
+updateProduct = async (id, obj) => {
+    try {
+    const productosDb = await fs.promises.readFile(this.path, "utf-8");
+    const productoId = JSON.parse(productosDb);
+
+    const productoUpdt = Object.assign(productoId[id - 1], obj);
+    console.log(productoUpdt);
+    this.products = productoId;
+    this.appendProduct();
+    } catch (err) {
+    console.log(err);
     }
+};
+
+deleteProduct = async (id) => {
+    try {
+    const productosDb = await fs.promises.readFile(this.path, "utf-8");
+    const productoId = JSON.parse(productosDb);
+
+    productoId.splice(id - 1, 1);
+    this.products = productoId;
+    this.appendProduct();
+    } catch (err) {
+    console.log(err);
+    }
+};
 
 }
 
 const product = new ProductManager ()
-
+/* 
 product.addProduct({
     title:`Toyota Hilux`,
     description:`Cero kilómetros, versión SRX, caja automática.`,
@@ -75,8 +121,12 @@ console.log(product.addProduct({
     thumbnail: `https://acroadtrip.blob.core.windows.net/catalogo-imagenes/s/RT_V_c0403804a1054bf5964f31dccff67a10.jpg`,
     code: `A003`,
     stock: 2
-}))
+})) */
 
-console.log(product.getProducts());
+/* console.log(product.getProducts()); */
 /* console.log(product.getProductById(4)); */
 
+
+product.getProductById(2)
+/* product.updateProduct(2, {price: 45000}) */
+/* product.deleteProduct(2) */

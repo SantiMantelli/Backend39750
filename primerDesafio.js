@@ -55,15 +55,18 @@ class ProductManager {
         }
     };
 
-    getProductById = async (id) => {
+    getProductById = async (idProduct) => {
         try {
         const productosDb = await fs.promises.readFile(this.path, "utf-8");
         const productoId = JSON.parse(productosDb);
-        console.log(productoId[id - 1]);
+        const find = productoId.find((value) => value.id === idProduct);
+        return console.log(
+            find ? find : "No se encontró un producto con el ID proporcionado"
+        );
         } catch (err) {
         console.log(err);
         }
-}
+    };
 
 updateProduct = async (id, obj) => {
     try {
@@ -95,8 +98,8 @@ deleteProduct = async (id) => {
 }
 
 const product = new ProductManager ()
-/* 
-product.addProduct({
+
+/* product.addProduct({
     title:`Toyota Hilux`,
     description:`Cero kilómetros, versión SRX, caja automática.`,
     price: 45000,

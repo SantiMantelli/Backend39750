@@ -130,6 +130,6 @@ console.log(product.addProduct({
 /* console.log(product.getProductById(4)); */
 
 
-product.getProductById(2)
+product.getProductById(1)
 /* product.updateProduct(2, {price: 45000}) */
 /* product.deleteProduct(2) */

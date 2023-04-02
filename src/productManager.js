@@ -1,10 +1,33 @@
-const fs = require("fs")
+import fs from 'fs';
+
 
 class ProductManager {
     constructor() {
-        this.products = []
-        this.path = "./database/productos.json"
+        this.products = ["Santiagooo"]
+        this.path = "../database/productos.json"
     }
+    
+    getProducts = async () => {
+        try {
+        const productsList = await fs.promises.readFile(this.path, 'utf-8');
+        const products = JSON.parse(productsList)
+        return products;
+    
+        } catch (err) {
+        console.log(err);
+        }
+    };
+
+    getProductById = async (idProduct) => {
+        try {
+        const productsList = await fs.promises.readFile(this.path, "utf-8");
+        const products = JSON.parse(productsList);
+        const productByID = products.find((value) => value.id === idProduct);
+        return productByID
+        } catch (err) {
+        console.log(err);
+        }
+    };
 
     appendProduct = async () => {
         const toJSON = JSON.stringify(this.products, null, 2);
@@ -46,41 +69,22 @@ class ProductManager {
         this.appendProduct()
     }
 
-    getProducts = async () => {
-        try {
-        const productosDb = await fs.promises.readFile(this.path, "utf-8");
-        console.log(productosDb);
-        } catch (err) {
-        console.log(err);
-        }
-    };
 
-    getProductById = async (idProduct) => {
+
+
+    updateProduct = async (id, obj) => {
         try {
         const productosDb = await fs.promises.readFile(this.path, "utf-8");
         const productoId = JSON.parse(productosDb);
-        const find = productoId.find((value) => value.id === idProduct);
-        return console.log(
-            find ? find : "No se encontró un producto con el ID proporcionado"
-        );
+
+        const productoUpdt = Object.assign(productoId[id - 1], obj);
+        console.log(productoUpdt);
+        this.products = productoId;
+        this.appendProduct();
         } catch (err) {
         console.log(err);
         }
     };
-
-updateProduct = async (id, obj) => {
-    try {
-    const productosDb = await fs.promises.readFile(this.path, "utf-8");
-    const productoId = JSON.parse(productosDb);
-
-    const productoUpdt = Object.assign(productoId[id - 1], obj);
-    console.log(productoUpdt);
-    this.products = productoId;
-    this.appendProduct();
-    } catch (err) {
-    console.log(err);
-    }
-};
 
 deleteProduct = async (id) => {
     try {
@@ -97,7 +101,7 @@ deleteProduct = async (id) => {
 
 }
 
-const product = new ProductManager ()
+/* const product = new ProductManager () */
 
 /* product.addProduct({
     title:`Toyota Hilux`,
@@ -117,7 +121,7 @@ product.addProduct({
     stock: 7
 })
 
-console.log(product.addProduct({
+product.addProduct({
     title:`Ford F150`,
     description:`Cero kilómetros, versión F150 LARIAT`,
     price: 70000,
@@ -130,6 +134,10 @@ console.log(product.addProduct({
 /* console.log(product.getProductById(4)); */
 
 
-product.getProductById(1)
+/* product.getProductById(1) */
 /* product.updateProduct(2, {price: 45000}) */
 /* product.deleteProduct(2) */
+
+
+
+export default ProductManager

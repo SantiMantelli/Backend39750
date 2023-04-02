@@ -34,6 +34,23 @@ class ProductManager {
         await fs.promises.writeFile(this.path, toJSON)
     };
 
+    addProduct(newProduct){
+
+        /* Validaciones */
+        if (!newProduct.title || 
+            !newProduct.description || 
+            !newProduct.price || 
+            !newProduct.thumbnail || 
+            !newProduct.code || 
+            !newProduct.stock) return `Todos los campos son obligatorios`
+
+            let product = this.products.find(prod => prod.code === newProduct.code)
+            if (product) return `Ya existe un producto con este codigo`
+
+        return this.products.push({id: this.products.length+1, ...newProduct}) &&
+        this.appendProduct()
+    }
+
     addProducts = (title, description, price, thumbnail, code, stock) => {
         const product = {
             title,
@@ -51,23 +68,6 @@ class ProductManager {
         } else product.id = this.products [this.products.length - 1].id + 1
     }
 
-
-    addProduct(newProduct){
-
-        /* Validaciones */
-        if (!newProduct.title || 
-            !newProduct.description || 
-            !newProduct.price || 
-            !newProduct.thumbnail || 
-            !newProduct.code || 
-            !newProduct.stock) return `Todos los campos son obligatorios`
-
-            let product = this.products.find(prod => prod.code === newProduct.code)
-            if (product) return `Ya existe un producto con este codigo`
-
-        return this.products.push({id: this.products.length+1, ...newProduct}) &&
-        this.appendProduct()
-    }
 
 
 
@@ -98,6 +98,7 @@ deleteProduct = async (id) => {
     console.log(err);
     }
 };
+
 
 }
 

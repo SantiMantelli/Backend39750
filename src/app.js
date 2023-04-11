@@ -1,42 +1,20 @@
-import ProductManager from './productManager.js';
-import express from 'express';
+import express from "express";
+import productRouter from "../src/routers/products.router.js";
+import routerCart from "./routers/carts.router.js";
 
-const app = express()
-const PORT = 8080
+const app = express();
 
-/* const products = new Container('../database/productos.json') */
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use("/static", express.static("./src/public"));
 
-const productManager = new ProductManager();
+// Router de carritos
+app.use("/api/carts", routerCart);
 
-app.use(express.urlencoded({ extended: true }))
+// Router de productos
+app.use("/api/products", productRouter);
 
-const server = app.listen(PORT, () => {
-    console.log(`Sintonizando radio ${server.address().port}`)
+app.listen(8080, () => {
+console.log("Sintonizando 8080");
 });
-
-server.on('error', (error) => {
-    console.log('Error', error)
-});
-
-app.get("/products", async (req, res) => {
-    try {
-        const products = await productManager.getProducts()
-        const limit =  req.query.limit
-        if(!limit) return res.send(products)
-        res.send(products.slice(0, limit)) 
-
-    } catch (error) {
-        console.log(error);
-    }
-}) 
-
-app.get("/products/:pid", async (req, res) => {
-    try {
-        const id = parseInt(req.params.pid)
-        const product = await productManager.getProductById(id)
-        if(!product) res.send('PRODUCT NOT FOUND')
-        res.send(product)
-    } catch (error) {
-        console.log(error);
-    }
-})

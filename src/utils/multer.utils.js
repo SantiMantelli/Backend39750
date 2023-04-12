@@ -5,8 +5,9 @@ const path =
   pathname.pathname.slice(1, pathname.pathname.length) + "public/img";
 
 const storage = multer.diskStorage({
+
   destination: function (req, file, cb) {
-    // console.log(pathname.pathname+'/public/img', 'estoy en multer')
+    console.log('estoy en multer')
     cb(null, path);
   },
   filename: function (req, file, cb) {

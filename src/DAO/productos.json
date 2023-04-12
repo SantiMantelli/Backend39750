@@ -1,5 +1,4 @@
 [
-  
   {
     "id": 1,
     "title": "Toyota Hilux",
@@ -10,84 +9,66 @@
     "stock": 5
   },
   {
-    "id": 2,
-    "title": "Toyota Corolla",
-    "description": "Año 2022, 12.000 kilómetros, versión SEG CVT",
-    "price": 30000,
-    "thumbnail": "https://media.toyota.com.ar/12d01c73-22b1-4025-8612-13f06bb8923d.png",
-    "code": "A002",
-    "stock": 7
-  },
-  {
-    "id": 3,
-    "title": "Ford F150",
-    "description": "Cero kilómetros, versión F150 LARIAT",
-    "price": 70000,
-    "thumbnail": "https://acroadtrip.blob.core.windows.net/catalogo-imagenes/s/RT_V_c0403804a1054bf5964f31dccff67a10.jpg",
-    "code": "A003",
-    "stock": 2
-  },
-  {
     "id": 4,
-    "title": "Toyota Corolla",
-    "description": "Año 2022, 12.000 kilómetros, versión SEG CVT",
-    "price": 30000,
-    "thumbnail": "https://media.toyota.com.ar/12d01c73-22b1-4025-8612-13f06bb8923d.png",
+    "title": "Ford Ka",
+    "description": "Año 2016, versión SE",
+    "price": 22000,
+    "thumbnail": "https://www.16valvulas.com.ar/wp-content/uploads/2016/03/nuevo-ka-exterior.jpg",
     "code": "A004",
-    "stock": 7
+    "stock": 9
   },
   {
     "id": 5,
-    "title": "Ford Mustang",
-    "description": "Año 2021, 0 kilómetros, versión GT Fastback",
-    "price": 50000,
-    "thumbnail": "https://www.ford.com.ar/content/dam/Ford/website-assets/latam/ar/nameplate/mustang-gt/my22/overview/desktop/Mustang-GT-desktop.jpg",
+    "title": "Chevrolet Cruze",
+    "description": "Año 2022, versión RS",
+    "price": 55000,
+    "thumbnail": "https://www.chevrolet.com.ar/bypass/gmccontenthub/chevrolet/gm-ar/colorizer_cruze_rs/images/colorizer-1.png",
     "code": "A005",
-    "stock": 2
-  },
-  {
-    "id": 6,
-    "title": "Chevrolet Onix",
-    "description": "Año 2021, 8.000 kilómetros, versión LTZ",
-    "price": 20000,
-    "thumbnail": "https://www.chevrolet.com.ar/content/dam/chevrolet/lat-am/argentina/espanol/index/cars/2021-onix/colorizer/01-images/Onix%20Sedan_0SC09M_colorizer_Black_3qtrFront.png?imwidth=960",
-    "code": "A006",
     "stock": 4
   },
   {
+    "id": 6,
+    "title": "Ford Ranger",
+    "description": "Versión LIMITED, 4X4, automática",
+    "price": 65000,
+    "thumbnail": "https://www.ford.com.ar/content/dam/Ford/website-assets/latam/ar/nameplate/Nueva-ranger/2020/colours-models/limited/colorizer/blanco-oxford/far-ranger-limited-blanco-oxford.jpg.dam.full.high.jpg/1593576162986.jpg",
+    "code": "A006",
+    "stock": 1
+  },
+  {
     "id": 7,
-    "title": "Volkswagen Amarok",
-    "description": "Año 2022, 5.000 kilómetros, versión Highline",
-    "price": 60000,
-    "thumbnail": "https://www.volkswagen.com.ar/content/dam/vw-ngw/vw_pkw/importers/ar/showrooms/amarok/desktop/3qtr-front/CONFIGURATOR_AMA_Desktop_V2_3QTR-front.png/_jcr_content/renditions/original.transform/max/img.png",
+    "title": "Peugeot 308 S GT",
+    "description": "Año 2023, tope de gama",
+    "price": 85000,
+    "thumbnail": "https://www.autoweb.com.ar/wp-content/uploads/2019/01/3-Peugeot_308-estatica-4-812x530.jpg",
     "code": "A007",
     "stock": 3
   },
   {
     "id": 8,
-    "title": "Fiat Cronos",
-    "description": "Año 2022, 2.000 kilómetros, versión Precision",
-    "price": 25000,
-    "thumbnail": "https://www.fiat.com.ar/content/dam/fiat/latam/ar/vehicle/m/2019/cronos/model/2019-cronos.png",
+    "title": "Peugeot 208",
+    "description": "Versión Style, caja automática",
+    "price": 42000,
+    "thumbnail": "https://www.autoweb.com.ar/wp-content/uploads/2022/11/Peugeot-208-Style-frente.jpg",
     "code": "A008",
-    "stock": 6
+    "stock": 7
   },
   {
     "id": 9,
-    "title": "Jeep Wrangler",
-    "description": "Modelo Rubicon, año 2022, 4x4, caja manual.",
-    "price": 55000,
-    "thumbnail": "https://acroadtrip.blob.core.windows.net/catalogo-imagenes/xl/RT_V_f4b4ba0674e94990ad4a8cdd74f0ee63.jpg",
+    "title": "Mercedes Benz C250 Coupé",
+    "description": "Año 2022, 6.000 kilómetros.",
+    "price": 120000,
+    "thumbnail": "https://www.mercedes-benz.co.uk/passengercars/mercedes-benz-cars/models/c-class/coupe-c205/specifications/design-and-equipment-lines/_jcr_content/swipeableteaserbox/par/swipeableteaser_1169583346/asset.MQ6.12.20210712164617.jpeg",
     "code": "A009",
-    "stock": 3
-    },
-    {
-    "id": 10,
-    "title": "Volkswagen Golf GTI",
-    "description": "Año 2021, 20.000 kilómetros, versión GTI",
-    "price": 35000,
-    "thumbnail": "https://media.autocosmos.com/noticias/fotosprinc/NAZ_d06484d0e16b41ca9f1a8c1b6742f7d2.jpg",
-    "code": "A010",
     "stock": 2
-    }
-  ]
+  },
+  {
+    "id": 10,
+    "title": "BMW 118I",
+    "description": "Año 2022, versión SPORT",
+    "price": 90000,
+    "thumbnail": "https://1.bp.blogspot.com/-t9LtnTBMoEI/YElEH0NUnGI/AAAAAAADdo8/B9ciKUvS798BAi0BAxAm_KHYgBErl9fhwCNcBGAsYHQ/s988/Lanzamiento-BMW-118-Sport-Street-Autoblog-Uruguay-Precios-0km-202100002.jpeg",
+    "code": "A0010",
+    "stock": 12
+  }
+]

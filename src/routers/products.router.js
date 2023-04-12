@@ -34,19 +34,19 @@ router.get("/:pid", async (req, res) => {
 
 //  POST  //
 
-router.post("/formulario", uploader.none(), async (req, res) => {
+router.post("/formulario", uploader.single("thumbnail"), async (req, res) => {
   try {
     // Obtenemos el body
     const productSend = req.body;
-    console.log(productSend);
 
     // desestructuración para enviar al método addProduct
-    const { title, description, price, status, thumbnail, code, stock } =
-      productSend;
-      console.log(description)
+    const { title, category, description, price, code, stock } = productSend;
+    const status = req.body.status === undefined ? 'false' : 'true'
+    const thumbnail = req.file.path;
 
     const valueReturned = await pm.addProduct(
       title,
+      category,
       description,
       price,
       status,
@@ -59,6 +59,18 @@ router.post("/formulario", uploader.none(), async (req, res) => {
     if (valueReturned.status === "error")
       return res.status(400).send({ valueReturned });
     res.status(200).send({ productSend });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+/* DELETE */
+
+router.delete("/delete/:pid", async (req, res) => {
+  try {
+    // http://localhost:8080/products/delete/2
+    const product = await pm.deleteProduct(req.params.pid);
+    res.status(200).send({ product });
   } catch (err) {
     console.log(err);
   }

@@ -23,6 +23,7 @@ app.get('/', function(req, res) {
 /* app.use("/static", express.static("./src/public/index.html")); */
 
 /* app.use('/static', express.static(__dirname + './src/public')) */
+
 // Router de carritos
 app.use("/api/carts", routerCart);
 

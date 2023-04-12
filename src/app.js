@@ -1,14 +1,28 @@
 import express from "express";
 import productRouter from "../src/routers/products.router.js";
 import routerCart from "./routers/carts.router.js";
+import { fileURLToPath } from 'url';
+import path, { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use("/static", express.static("./src/public"));
 
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', function(req, res) {
+    res.sendFile('index.html', { root: path.join(__dirname, 'public') });
+});
+
+/* app.use("/static", express.static("./src/public/index.html")); */
+
+/* app.use('/static', express.static(__dirname + './src/public')) */
 // Router de carritos
 app.use("/api/carts", routerCart);
 

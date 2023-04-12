@@ -18,38 +18,23 @@
 <body>
     <h1>La Curtiembre</h1>
 
-    <form action="/api/products/formulario" method="POST" enctype="multipart/form-data">
-        <div class="">
-            <label for="titleID" class="form-label">Title:</label>
-            <input name="title" type="text" class="form-control" id="titleID">
-
-            <label for="Description" class="form-label">Description:</label>
-            <input name="description" type="text" class="form-control" id="Description">
-
-            <label for="Category" class="form-label">Category:</label>
-            <input name="category" type="text" class="form-control" id="Category">
-
-            <label for="Price" class="form-label">Price:</label>
-            <input name="price" type="number" class="form-control" id="Price">
-
-            <label for="Status" class="form-label">Status:</label>
-            <input name="status" type="checkbox" class="" id="Status" checked>
-            <br>
-
-            <label for="Thumbnail" class="form-label">Thumbnail:</label>
-            <input name="thumbnail" type="file" class="form-control">
-
-            <label for="Code" class="form-label">Code:</label>
-            <input name="code" type="text" class="form-control" id="Code">
-
-            <label for="Stock" class="form-label">Stock:</label>
-            <input name="stock" type="number" class="form-control" id="Stock">
-
-            <div class="col-12 btn">
-                <button class="btn btn-primary" type="submit">Submit product</button>
-            </div>
-        </div>
-    </form>
+    <section class="form-product">
+        <form action="/api/products/formulario" method="POST" enctype="multipart/form-data">
+            <h4>Ingreso de productos</h4>
+            <input class="controls" type="text" name="title" id="title" placeholder="Nombre del producto">
+            <input class="controls" type="text" name="price" id="price" placeholder="Ingrese el valor">
+            <input class="controls" type="file" name="thumbnail" id="thumbnail" placeholder="Ingrese imagen">
+            <input class="controls" type="text" name="code" id="code" placeholder="Ingrese codigo de producto">
+            <input class="controls" type="text" name="stock" id="stock" placeholder="Ingrese stock de producto">
+            <input class="controls" type="text" name="category" id="category" placeholder="Ingrese categoria de producto">
+            <input class="controls" type="text" name="description" id="description" placeholder="Descripcion">
+            <label class="switch">
+                <input type="checkbox" name="status" id="status" value="true">
+                <span class="slider"></span>
+            </label> Status
+            <input class="botons" type="submit" value="Cargar">
+        </form>
+    </section>
 
 </body>
 

@@ -1,10 +1,10 @@
 import { Router } from "express";
 import CartManager from "../DAO/cartsManager.js";
 
-const routerCar = Router();
+const routerCart = Router();
 const carts = new CartManager();
 
-routerCar.get("/:cid", async (req, res) => {
+routerCart.get("/:cid", async (req, res) => {
   const { cid } = req.params;
   try {
     const valueReturned = await carts.getCartById(cid);
@@ -17,7 +17,7 @@ routerCar.get("/:cid", async (req, res) => {
   }
 });
 
-routerCar.post("/", async (req, res) => {
+routerCart.post("/", async (req, res) => {
   try {
     // Obtenemos el body
     const cart = req.body;
@@ -40,7 +40,7 @@ routerCar.post("/", async (req, res) => {
   }
 });
 
-routerCar.post("/:cid/product/:pid", async (req, res) => {
+routerCart.post("/:cid/product/:pid", async (req, res) => {
   try {
     let { producto } = req.body;
     const { cid, pid } = req.params;
@@ -82,4 +82,4 @@ routerCar.post("/:cid/product/:pid", async (req, res) => {
   }
 });
 
-export default routerCar;
+export default routerCart;

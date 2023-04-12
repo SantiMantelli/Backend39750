@@ -25,7 +25,6 @@ router.get("/:pid", async (req, res) => {
   try {
     // http://localhost:8080/products/2
     console.log(req.params.pid);
-
     const product = await pm.getProductById(req.params.pid);
     res.status(200).send({ product });
   } catch (err) {
@@ -35,22 +34,16 @@ router.get("/:pid", async (req, res) => {
 
 //  POST  //
 
-router.post("/", async (req, res) => {
+router.post("/formulario", uploader.none(), async (req, res) => {
   try {
     // Obtenemos el body
     const productSend = req.body;
+    console.log(productSend);
 
-    // Comprobamos que todos los campos estén completos
-    const campoVacio = Object.values(productSend).find((value) => value === "");
-    console.log(campoVacio);
-    if (campoVacio) {
-      return res
-        .status(400)
-        .send({ status: "error", message: "Falta completar algún campo" });
-    }
     // desestructuración para enviar al método addProduct
     const { title, description, price, status, thumbnail, code, stock } =
       productSend;
+      console.log(description)
 
     const valueReturned = await pm.addProduct(
       title,
@@ -73,29 +66,66 @@ router.post("/", async (req, res) => {
 
 //  POST DESDE FORM  //
 
-router.post("/formulario", uploader.single("thumbnail"), async (req, res) => {
-  try {
+/* router.post("/formulario", async (req, res) => {
+  const valueReturned = await pm.addProducts(); */
+
+/*   const { title, price, code, stock, category, description, status } = req.body;
+
+  // Crear objeto del nuevo producto
+  const newProduct = {
+    id: products.length + 1,
+    title,
+    price,
+    thumbnail: req.file.filename,
+    code,
+    stock,
+    category,
+    description,
+    status: status === 'on' ? true : false
+  };
+
+  // Agregar el nuevo producto al array de productos
+  products.push(newProduct);
+
+  // Redireccionar a la página de productos
+  res.redirect('/products'); */
+/* }); */
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  /* try {
     let productSend = req.body;
-    // console.log(productSend);
+    console.log(productSend); */
     // console.log(req.file.path, 'img');
     // Comprobamos que todos los campos estén completos
-    try {
+/*     try {
       productSend.thumbnail = req.file.path;
     } catch {
       productSend.thumbnail = "empty";
-    }
+    } */
 
     // Status true or false
 
-    Object.hasOwn(productSend, "status")
+/*     Object.hasOwn(productSend, "status")
       ? (productSend["status"] = "true")
-      : (productSend["status"] = "false");
+      : (productSend["status"] = "false"); */
 
     // console.log(status, 'status later')
     // console.log(productSend, 'later status');
 
     // desestructuración para enviar al método addProduct
-    let {
+   /*  let {
       title,
       description,
       price,
@@ -104,17 +134,18 @@ router.post("/formulario", uploader.single("thumbnail"), async (req, res) => {
       thumbnail,
       code,
       stock,
-    } = productSend;
+    } = productSend; */
 
-    const campoVacio = Object.values(productSend).find((value) => value === "");
+  /*   const campoVacio = Object.values(productSend).find((value) => value === "");
     if (campoVacio) {
       return res
         .status(400)
         .send({ status: "error", message: "Falta completar algún campo" });
     }
-
+ */
     // console.log(title, description, price, thumbnail, code, stock)
-    const valueReturned = await pm.addProduct(
+
+/*     const valueReturned = await pm.addProduct(
       title,
       description,
       price,
@@ -123,13 +154,14 @@ router.post("/formulario", uploader.single("thumbnail"), async (req, res) => {
       thumbnail,
       code,
       stock
-    );
+    ); */
     // console.log(valueReturned)
-    res.send(res.redirect("http://localhost:8080/static"));
+   /*  res.send(res.redirect("http://localhost:8080/static")); */
+/*   return console.log('aca llego')
   } catch (err) {
     console.log(err);
   }
-});
+}); */
 
 //  PUT  //
 

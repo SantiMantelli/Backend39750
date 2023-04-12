@@ -1,3 +1,4 @@
+import { Console } from "console";
 import fs from "fs";
 
 class ProductManager {
@@ -22,7 +23,7 @@ class ProductManager {
     stock
   ) => {
     const productsFS = await this.getProducts();
-    // console.log(productsFS);
+    /*console.log(productsFS); */
     this.products = productsFS;
 
     const product = {
@@ -35,7 +36,7 @@ class ProductManager {
       code,
       stock,
     };
-    // console.log(product, 'codigo----');
+
     // Validacion de codigo
     const validarCodigo = this.products.find(
       (productos) => productos.code === product.code
@@ -87,15 +88,15 @@ class ProductManager {
   getProductById = async (id) => {
     try {
       const getFileProducts = await fs.promises.readFile(this.path, "utf-8");
-      const parseProducst = JSON.parse(getFileProducts);
-      console.log(parseProducst[id - 1]);
-      if (!parseProducst[id - 1]) return "Error! No existe";
-
-      return parseProducst[id - 1];
+      const parseProducts = JSON.parse(getFileProducts);
+      const product = parseProducts.find((product) => product.id == id);
+      if (!product) return "Error! No existe";
+      return product;
     } catch (err) {
       console.log(err);
     }
   };
+  
 
   updateProduct = async (pid, data) => {
     const getFileProducts = await fs.promises.readFile(this.path, "utf-8");

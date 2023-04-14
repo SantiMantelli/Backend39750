@@ -18,7 +18,55 @@
 <body>
     <h1>La Curtiembre</h1>
 
+
     <section class="form-product">
+        <form action="/api/products/formulario" method="POST" enctype="multipart/form-data">
+          <h4>Ingreso de productos</h4>
+          <div class="form-group">
+            <label for="title">Nombre del producto</label>
+            <input type="text" name="title" id="title" placeholder="Ej: Ford F-150 Raptor" required>
+          </div>
+          <div class="form-group">
+            <label for="price">Valor</label>
+            <input type="text" name="price" id="price" placeholder="Ej: 1.000.000" required>
+          </div>
+          <div class="form-group">
+            <label for="thumbnail">Imagen</label>
+            <input type="file" name="thumbnail" id="thumbnail" required>
+          </div>
+          <div class="form-group">
+            <label for="code">Código</label>
+            <input type="text" name="code" id="code" placeholder="Ej: A001" required>
+          </div>
+          <div class="form-group">
+            <label for="stock">Stock</label>
+            <input type="text" name="stock" id="stock" required>
+          </div>
+          <div class="form-group">
+            <label for="category">Categoría</label>
+            <input type="text" name="category" id="category" placeholder="Tipo de vehiculo" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Descripción</label>
+            <textarea name="description" id="description" placeholder="Año, versión, kms y datos adicionales" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="status">Status</label>
+            <label class="switch">
+              <input type="checkbox" name="status" id="status" value="true">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="form-group">
+            <button class="botons" type="submit">Cargar</button>
+          </div>
+        </form>
+      </section>
+      
+
+
+
+<!--     <section class="form-product">
         <form action="/api/products/formulario" method="POST" enctype="multipart/form-data">
             <h4>Ingreso de productos</h4>
             <input class="controls" type="text" name="title" id="title" placeholder="Nombre del producto">
@@ -34,7 +82,7 @@
             </label> Status
             <input class="botons" type="submit" value="Cargar">
         </form>
-    </section>
+    </section> -->
 
 </body>
 

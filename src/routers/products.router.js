@@ -66,11 +66,28 @@ router.post("/formulario", uploader.single("thumbnail"), async (req, res) => {
 
 /* DELETE */
 
-router.delete("/delete/:pid", async (req, res) => {
+router.delete("/:pid", async (req, res) => {
   try {
     // http://localhost:8080/products/delete/2
     const product = await pm.deleteProduct(req.params.pid);
     res.status(200).send({ product });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
+/* UPDATE */
+
+router.put("/:pid", async (req, res) => {
+  try {
+    // Datos obtenidos desde el cliente
+    const { pid } = req.params;
+    const productUpdate = req.body;
+
+    const updateProduct = await pm.updateProduct(pid, productUpdate);
+    if (!updateProduct.error) return res.status(400).send({ updateProduct });
+    res.send({ updateProduct });
   } catch (err) {
     console.log(err);
   }
@@ -175,35 +192,5 @@ router.delete("/delete/:pid", async (req, res) => {
   }
 }); */
 
-//  PUT  //
 
-router.put("/:pid", async (req, res) => {
-  try {
-    // Datos obtenidos desde el cliente
-    const { pid } = req.params;
-    const productUpdate = req.body;
-
-    const updateProduct = await pm.updateProduct(pid, productUpdate);
-    if (!updateProduct.error) return res.status(400).send({ updateProduct });
-    res.send({ updateProduct });
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-//  DELETE  //
-
-router.delete("/:pid", async (req, res) => {
-  try {
-    const { pid } = req.params;
-    const response = await pm.deleteProduct(pid);
-    console.log(response);
-    if (!response.error) return res.status(400).send({ response });
-    res.status(200).send({ response });
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-// module.exports = router;
 export default router;

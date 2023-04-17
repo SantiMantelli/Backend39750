@@ -84,113 +84,28 @@ router.put("/:pid", async (req, res) => {
     // Datos obtenidos desde el cliente
     const { pid } = req.params;
     const productUpdate = req.body;
-
+  /*   console.log(pid, req.body) */
     const updateProduct = await pm.updateProduct(pid, productUpdate);
     if (!updateProduct.error) return res.status(400).send({ updateProduct });
-    res.send({ updateProduct });
+    res.status(200).send({ updateProduct });
   } catch (err) {
     console.log(err);
   }
 });
 
-//  POST DESDE FORM  //
-
-/* router.post("/formulario", async (req, res) => {
-  const valueReturned = await pm.addProducts(); */
-
-/*   const { title, price, code, stock, category, description, status } = req.body;
-
-  // Crear objeto del nuevo producto
-  const newProduct = {
-    id: products.length + 1,
-    title,
-    price,
-    thumbnail: req.file.filename,
-    code,
-    stock,
-    category,
-    description,
-    status: status === 'on' ? true : false
-  };
-
-  // Agregar el nuevo producto al array de productos
-  products.push(newProduct);
-
-  // Redireccionar a la página de productos
-  res.redirect('/products'); */
-/* }); */
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  /* try {
-    let productSend = req.body;
-    console.log(productSend); */
-    // console.log(req.file.path, 'img');
-    // Comprobamos que todos los campos estén completos
-/*     try {
-      productSend.thumbnail = req.file.path;
-    } catch {
-      productSend.thumbnail = "empty";
-    } */
-
-    // Status true or false
-
-/*     Object.hasOwn(productSend, "status")
-      ? (productSend["status"] = "true")
-      : (productSend["status"] = "false"); */
-
-    // console.log(status, 'status later')
-    // console.log(productSend, 'later status');
-
-    // desestructuración para enviar al método addProduct
-   /*  let {
-      title,
-      description,
-      price,
-      status,
-      category,
-      thumbnail,
-      code,
-      stock,
-    } = productSend; */
-
-  /*   const campoVacio = Object.values(productSend).find((value) => value === "");
-    if (campoVacio) {
-      return res
-        .status(400)
-        .send({ status: "error", message: "Falta completar algún campo" });
-    }
- */
-    // console.log(title, description, price, thumbnail, code, stock)
-
-/*     const valueReturned = await pm.addProduct(
-      title,
-      description,
-      price,
-      status,
-      category,
-      thumbnail,
-      code,
-      stock
-    ); */
-    // console.log(valueReturned)
-   /*  res.send(res.redirect("http://localhost:8080/static")); */
-/*   return console.log('aca llego')
-  } catch (err) {
-    console.log(err);
+/* Codigo para modificar algun producto */
+/* fetch('http://localhost:8080/api/products/6', {
+  method: 'PUT',
+  body: JSON.stringify({
+    title: 'Fiat Cronos',
+  }),
+  headers: {
+    'Content-type': 'application/json; charset=UTF-8'
   }
-}); */
+})
+.then(res => res.json())
+.then(console.log) */
+
 
 
 export default router;

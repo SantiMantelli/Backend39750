@@ -20,9 +20,6 @@ app.get('/', function(req, res) {
     res.sendFile('index.html', { root: path.join(__dirname, 'public') });
 });
 
-/* app.use("/static", express.static("./src/public/index.html")); */
-
-/* app.use('/static', express.static(__dirname + './src/public')) */
 
 // Router de carritos
 app.use("/api/carts", routerCart);
@@ -31,5 +28,5 @@ app.use("/api/carts", routerCart);
 app.use("/api/products", productRouter);
 
 app.listen(8080, () => {
-console.log("Sintonizando 8080");
+console.log("Escuchando el 8080");
 });

@@ -18,19 +18,10 @@
     "stock": 9
   },
   {
-    "id": 5,
-    "title": "Chevrolet Cruze",
-    "description": "Año 2022, versión RS",
-    "price": 55000,
-    "thumbnail": "https://www.chevrolet.com.ar/bypass/gmccontenthub/chevrolet/gm-ar/colorizer_cruze_rs/images/colorizer-1.png",
-    "code": "A005",
-    "stock": 4
-  },
-  {
     "id": 6,
-    "title": "Ford Ranger",
+    "title": "Fiat Pulse",
     "description": "Versión LIMITED, 4X4, automática",
-    "price": 65000,
+    "price": 1252000,
     "thumbnail": "https://www.ford.com.ar/content/dam/Ford/website-assets/latam/ar/nameplate/Nueva-ranger/2020/colours-models/limited/colorizer/blanco-oxford/far-ranger-limited-blanco-oxford.jpg.dam.full.high.jpg/1593576162986.jpg",
     "code": "A006",
     "stock": 1
@@ -70,5 +61,38 @@
     "thumbnail": "https://1.bp.blogspot.com/-t9LtnTBMoEI/YElEH0NUnGI/AAAAAAADdo8/B9ciKUvS798BAi0BAxAm_KHYgBErl9fhwCNcBGAsYHQ/s988/Lanzamiento-BMW-118-Sport-Street-Autoblog-Uruguay-Precios-0km-202100002.jpeg",
     "code": "A0010",
     "stock": 12
+  },
+  {
+    "title": "Ford Focus",
+    "category": "auto",
+    "description": "version intermedia, año 2020, 25 000 kilometros",
+    "price": 6000,
+    "status": true,
+    "thumbnail": "C:\\Users\\Santiago\\Desktop\\Backend\\src\\public\\img\\WhatsApp Image 2022-10-18 at 17.21.37.jpeg",
+    "code": "A019",
+    "stock": 2,
+    "id": 11
+  },
+  {
+    "title": "Ford F4000",
+    "category": "camion",
+    "description": "ano 2019 version S 4x4",
+    "price": 50000,
+    "status": true,
+    "thumbnail": "C:\\Users\\Santiago\\Desktop\\Backend\\src\\public\\img\\WhatsApp Image 2022-03-10 at 9.54.44 AM (1).jpeg",
+    "code": "A999",
+    "stock": 1,
+    "id": 12
+  },
+  {
+    "title": "Volkswagen Saveiro",
+    "category": "camioneta",
+    "description": "version pack segurity, año 2013.",
+    "price": 60000,
+    "status": true,
+    "thumbnail": "C:\\Users\\Santiago\\Desktop\\Backend\\src\\public\\img\\WhatsApp Image 2021-11-01 at 12.19.03 (1).jpeg",
+    "code": "a039",
+    "stock": 1,
+    "id": 13
   }
 ]

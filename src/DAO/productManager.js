@@ -100,24 +100,27 @@ class ProductManager {
   updateProduct = async (pid, data) => {
     const getFileProducts = await fs.promises.readFile(this.path, "utf-8");
     const parseProducts = JSON.parse(getFileProducts);
-    // console.log(parseProducts);
+    /* console.log(parseProducts); */
     if (isNaN(Number(pid)))
       return { status: "error", message: "No es un id válido" };
 
-    const findId = parseProducts.findIndex((product) => product.id == pid);
-    if (findId === -1)
-      return { status: "error", message: "No se encontró el id" };
-
-    this.products = parseProducts.map((element) => {
-      if (element.id == pid) {
-        element = Object.assign(element, data);
-        return element;
+      const findId = parseProducts.findIndex((product) => product.id == pid);
+      if (findId === -1)
+        return { status: "error", message: "No se encontró el id" };
+        
+    this.products = parseProducts.map((product) => {
+      if (product.id == pid) {
+        product = Object.assign(product, data);
+        return product;
       }
-      return element;
+      return product;
     });
-
+    
     this.__appendProduct();
-    return returnedTarget;
+    return {
+      status: "success",
+      message: `Se actualizo el producto con id ${pid}`,
+    };
   };
 
   deleteProduct = async (pid) => {

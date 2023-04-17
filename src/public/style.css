@@ -18,6 +18,9 @@ form {
     color: rgb(161, 53, 53);
   }
    */
+/*   body{
+    background-image: url('./img/fondo.jpg');
+  } */
 
   .form-product {
     display: flex;

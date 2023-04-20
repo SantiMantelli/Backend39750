@@ -1,0 +1,36 @@
+<h1>PRODUCTOS</h1>
+
+<div>
+    {{#each limitProducts }}
+        <ul>
+            <li>
+                id: {{this.id}}
+            </li>
+            <li>
+                title: {{this.title}}
+            </li>
+            <li>
+                description: {{this.description}}
+            </li>
+            <li>
+                price: ${{this.price}}
+            </li>
+            <li>
+                category: {{this.category}}
+            </li>
+            <li>
+                status: {{this.status}}
+            </li>
+            <li>
+                code: {{this.code}}
+            </li>
+            <li>
+                stock: {{this.stock}}
+            </li>
+            <li>
+                thumbnail: {{this.thumbnail}}
+            </li>
+
+        </ul>
+    {{/each}}
+</div>

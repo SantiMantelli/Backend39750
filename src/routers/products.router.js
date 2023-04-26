@@ -11,6 +11,8 @@ router.get("/", async (req, res) => {
   // http://localhost:8080/products?limit=2
   const { limit } = req.query;
   try {
+    if (isNaN(Number(limit)) && limit)
+    return res.status(400).send({ status: "No es un numero valido" });
     const valueReturned = await pm.getProducts();
     if (valueReturned.error)
       return res.status(200).send({ status: "Sin productos", valueReturned });

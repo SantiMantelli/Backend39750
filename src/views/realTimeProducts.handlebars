@@ -1,29 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
-
-    <title>Stock</title>
-</head>
-
-<body>
-    <h1>La Curtiembre</h1>
-
-
-    <section class="form-product">
-        <form action="/api/products/formulario" method="POST" enctype="multipart/form-data">
+      <form id="formulario" action="/api/products/formulario" method="POST" enctype="multipart/form-data">
           <h4>Ingreso de productos</h4>
           <div class="form-group">
             <label for="title">Nombre del producto</label>
-            <input type="text" name="title" id="title" placeholder="Ej: Ford F-150 Raptor" required>
+            <input type="text" name="title" id="title" required>
           </div>
           <div class="form-group">
             <label for="price">Valor</label>
-            <input type="text" name="price" id="price" placeholder="Ej: 1.000.000" required>
+            <input type="text" name="price" id="price" required>
           </div>
           <div class="form-group">
             <label for="thumbnail">Imagen</label>
@@ -31,7 +14,7 @@
           </div>
           <div class="form-group">
             <label for="code">Código</label>
-            <input type="text" name="code" id="code" placeholder="Ej: A001" required>
+            <input type="text" name="code" id="code" required>
           </div>
           <div class="form-group">
             <label for="stock">Stock</label>
@@ -39,11 +22,11 @@
           </div>
           <div class="form-group">
             <label for="category">Categoría</label>
-            <input type="text" name="category" id="category" placeholder="Tipo de vehiculo" required>
+            <input type="text" name="category" id="category" required>
           </div>
           <div class="form-group">
             <label for="description">Descripción</label>
-            <textarea name="description" id="description" placeholder="Año, versión, kms y datos adicionales" required></textarea>
+            <textarea name="description" id="description" required></textarea>
           </div>
           <div class="form-group">
             <label for="status">Status</label>
@@ -56,11 +39,10 @@
             <button class="botons" type="submit">Cargar</button>
           </div>
         </form>
-      </section>
-      
+
+        <div id="products"></div>
 
 
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realTimeProducts.js"></script>
 
-</body>
-
-</html>

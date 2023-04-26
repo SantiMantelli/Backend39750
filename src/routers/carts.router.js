@@ -78,7 +78,7 @@ routerCart.post("/:cid/product/:pid", async (req, res) => {
       (productos) => productos.idProduct == pid
     );
     console.log(productoEncontrado, 'encontrado')
- 
+
     if (productoEncontrado !== -1) {
       // carrito.productos[productoEncontrado]
       carrito.productos[productoEncontrado].cantidad =

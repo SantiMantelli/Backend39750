@@ -94,5 +94,44 @@
     "code": "a039",
     "stock": 1,
     "id": 13
+  },
+  {
+    "title": "Renault Captur",
+    "category": "intense caja automatica",
+    "description": "23000",
+    "price": null,
+    "status": true,
+    "thumbnail": [
+      "empty"
+    ],
+    "code": "a232",
+    "stock": 2,
+    "id": 14
+  },
+  {
+    "title": "Volkswagen Polo",
+    "category": "tope de gama, caja automatica",
+    "description": "25000",
+    "price": null,
+    "status": true,
+    "thumbnail": [
+      "empty"
+    ],
+    "code": "a12321",
+    "stock": 2,
+    "id": 15
+  },
+  {
+    "title": "Fiat Pulse",
+    "category": "version askdasd, 23 kms",
+    "description": "289000",
+    "price": null,
+    "status": true,
+    "thumbnail": [
+      "empty"
+    ],
+    "code": "a98293",
+    "stock": 28,
+    "id": 16
   }
 ]

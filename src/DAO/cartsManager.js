@@ -91,21 +91,5 @@ class CartManager {
 
 /* const carritos = new CartManager(); */
 
-/* const test = async () => {
-  const carrito = {
-    productos: [
-      {
-        idProduct: 4,
-        cantidad: 10,
-      },
-      {
-        idProduct: 2,
-        cantidad: 11,
-      },
-    ],
-  };
-  await carritos.addCart(carrito);
-};
-test(); */
 
 export default CartManager;

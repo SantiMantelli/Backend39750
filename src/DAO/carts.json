@@ -88,5 +88,18 @@
       }
     ],
     "id": 7
+  },
+  {
+    "productos": [
+      {
+        "idProduct": 8,
+        "cantidad": 2
+      },
+      {
+        "idProduct": 6,
+        "cantidad": 12
+      }
+    ],
+    "id": 8
   }
 ]

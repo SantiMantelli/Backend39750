@@ -10,8 +10,8 @@ import {Server} from 'socket.io';
 
 const pm = new ProductManager();
 
-
 const app = express()
+
 
 const httpServer = app.listen(8080, () => {
     
@@ -20,14 +20,8 @@ const httpServer = app.listen(8080, () => {
 
 const socketServer = new Server(httpServer)
 
-app.use('/realTimeProducts', (req, res) => {
-    res.render('realTimeProducts', {})
-})
-
 socketServer.on('connection', async socket => {
     const data =  await pm.getProducts()
-
-/*     socket.emit('products', {data, style: 'index.css'}) */
 
     socket.emit('products', {data})
 
@@ -43,14 +37,25 @@ socketServer.on('connection', async socket => {
             code,
             stock
         } = data
+        console.log(price)
 
-        const valueReturned = await pm.addProduct(title, description, price, status, category, thumbnail, code, stock)
+        const valueReturned = await pm.addProduct(title, category, description, price, status, thumbnail, code, stock)
         console.log(valueReturned)
         }
         catch (err){
             console.log(err);
         }
         
+})
+socket.on('product_delete', async id => {
+    try{
+        const valueReturned = await pm.deleteProduct(id)
+    console.log(valueReturned)
+    }
+    catch (err){
+        console.log(err);
+    }
+    
 })
 })
 
@@ -71,15 +76,25 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+// Define la ruta base de la aplicación
+const BASE_URL = '/api';
+
+// Usa la ruta base para tus endpoints
+app.use(`${BASE_URL}/carts`, routerCart);
+app.use(`${BASE_URL}/products`, productRouter);
+
+
+
 app.use('/', (req, res) => {
-    res.render('home', {})
+    res.render('realTimeProducts', {})
 })
 
 
-// Router de carritos
+
+/* // Router de carritos
 app.use("/api/carts", routerCart);
 
 // Router de productos
-app.use("/api/products", productRouter);
+app.use("/api/products", productRouter); */
 
 

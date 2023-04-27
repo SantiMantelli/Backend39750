@@ -1,49 +1,5 @@
 const socket = io()
-
 const formulario = document.getElementById('formulario')
-
-/* // Realiza una solicitud GET para obtener los productos
-fetch('/api/products')
-.then(response => response.json())
-.then(data => {
-    let productos = ''
-    data.data.forEach(producto => {
-        productos += `<div class="producto"> 
-                    <h1>title:${producto.title}</h1><br>
-                    description:${producto.description}<br>
-                    price:${producto.price}<br>
-                    status:${producto.status}<br>
-                    category:${producto.category}<br>
-                    thumbnail:${producto.thumbnail}<br>
-                    code:${producto.code}<br>
-                    stock:${producto.stock}<br>
-                    id:${producto.id}<br>
-                </div>`
-    });
-    products.innerHTML = productos;
-    
-    // Conecta el socket después de mostrar los productos
-    const socket = io();
-    socket.on('products', data =>{
-        let productos = ''
-        data.data.forEach(producto => {
-            productos += `<div class="producto"> 
-                        <h1>title:${producto.title}</h1><br>
-                        description:${producto.description}<br>
-                        price:${producto.price}<br>
-                        status:${producto.status}<br>
-                        category:${producto.category}<br>
-                        thumbnail:${producto.thumbnail}<br>
-                        code:${producto.code}<br>
-                        stock:${producto.stock}<br>
-                        id:${producto.id}<br>
-                    </div>`
-        });
-        products.innerHTML=productos
-    })
-});
- */
-
 
 socket.on('products', data =>{
     
@@ -61,6 +17,7 @@ socket.on('products', data =>{
                         <li><b>Stock: </b>${producto.stock}</li>
                         <li><b>Id: </b>${producto.id}</li>
                     </ul>
+                    <button class="eliminar-producto" data-product-id="${producto.id}">Eliminar producto</button>
                 </div>`
     });
     products.innerHTML=productos
@@ -73,10 +30,21 @@ formulario.addEventListener('submit', (event) =>{
     
     const data = Object.fromEntries(new FormData(event.target))
     data['thumbnail'] = ['empty']
-    console.log(data);
+    data['status'] = [true]
+/*     console.log(data); */
     
     socket.emit('product', data)
     
 })
+
+$(document).on('click', '.eliminar-producto', function(event) {
+    event.preventDefault();
+    const productId = $(this).data('product-id');
+/*     console.log(productId); */
+    socket.emit('product_delete', productId);
+});
+
+
+
 
 

@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
     if (valueReturned.error)
       return res.status(200).send({ status: "Sin productos", valueReturned });
     const limitProducts = valueReturned.slice(0, limit);
-    res.render("home", { limitProducts }); // Renderizar la vista "home" y pasarle los datos "limitProducts"
+    res.render("products", { limitProducts }); // Renderizar la vista "home" y pasarle los datos "limitProducts"
   } catch (err) {
     res.status(400).send({ status: "error router", err });
   }

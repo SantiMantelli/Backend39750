@@ -1,23 +1,5 @@
 [
   {
-    "id": 1,
-    "title": "Toyota Hilux",
-    "description": "Cero kilómetros, versión SRX, caja automática.",
-    "price": 45000,
-    "thumbnail": "https://acroadtrip.blob.core.windows.net/catalogo-imagenes/xl/RT_V_5f4024782d854ab3a56779e286268878.webp",
-    "code": "A001",
-    "stock": 5
-  },
-  {
-    "id": 4,
-    "title": "Ford Ka",
-    "description": "Año 2016, versión SE",
-    "price": 22000,
-    "thumbnail": "https://www.16valvulas.com.ar/wp-content/uploads/2016/03/nuevo-ka-exterior.jpg",
-    "code": "A004",
-    "stock": 9
-  },
-  {
     "id": 6,
     "title": "Fiat Pulse",
     "description": "Versión LIMITED, 4X4, automática",
@@ -133,5 +115,44 @@
     "code": "a98293",
     "stock": 28,
     "id": 16
+  },
+  {
+    "title": "Yamaha Raptor 700",
+    "category": "cuatriciclo",
+    "description": "pochoclero",
+    "price": 2500,
+    "status": true,
+    "thumbnail": [
+      "empty"
+    ],
+    "code": "a2786b",
+    "stock": 3,
+    "id": 19
+  },
+  {
+    "title": "Renault 12",
+    "category": "auto",
+    "description": "una reliquia",
+    "price": 55,
+    "status": true,
+    "thumbnail": [
+      "empty"
+    ],
+    "code": "a8238238aasd",
+    "stock": 2,
+    "id": 20
+  },
+  {
+    "title": "Renault Fluence",
+    "category": "auto",
+    "description": "fluence full tope de gama",
+    "price": 225000,
+    "status": true,
+    "thumbnail": [
+      "empty"
+    ],
+    "code": "a12323asd",
+    "stock": 2,
+    "id": 21
   }
 ]

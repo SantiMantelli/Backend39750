@@ -1,4 +1,5 @@
 import express from "express";
+import objectConfig from "../src/config/object.config.js";
 import productRouter from "../src/routers/products.router.js";
 import routerCart from "./routers/carts.router.js";
 import { fileURLToPath } from 'url';
@@ -12,13 +13,14 @@ const pm = new ProductManager();
 
 const app = express()
 
-
 const httpServer = app.listen(8080, () => {
     
     console.log('Escuchando el puerto 8080');
 });
 
 const socketServer = new Server(httpServer)
+
+objectConfig.connectDB();
 
 socketServer.on('connection', async socket => {
     const data =  await pm.getProducts()
@@ -37,7 +39,6 @@ socketServer.on('connection', async socket => {
             code,
             stock
         } = data
-        console.log(price)
 
         const valueReturned = await pm.addProduct(title, category, description, price, status, thumbnail, code, stock)
         console.log(valueReturned)
@@ -49,8 +50,7 @@ socketServer.on('connection', async socket => {
 })
 socket.on('product_delete', async id => {
     try{
-        const valueReturned = await pm.deleteProduct(id)
-    console.log(valueReturned)
+        await pm.deleteProduct(id)
     }
     catch (err){
         console.log(err);
@@ -91,10 +91,5 @@ app.use('/', (req, res) => {
 
 
 
-/* // Router de carritos
-app.use("/api/carts", routerCart);
-
-// Router de productos
-app.use("/api/products", productRouter); */
 
 

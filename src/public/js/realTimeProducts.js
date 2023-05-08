@@ -15,9 +15,9 @@ socket.on('products', data =>{
                         <li><b>Foto: </b>${producto.thumbnail}</li>
                         <li><b>Codigo: </b>${producto.code}</li>
                         <li><b>Stock: </b>${producto.stock}</li>
-                        <li><b>Id: </b>${producto.id}</li>
+                        <li><b>Id: </b>${producto._id}</li>
                     </ul>
-                    <button class="eliminar-producto" data-product-id="${producto.id}">Eliminar producto</button>
+                    <button class="eliminar-producto" data-product-id="${producto._id}">Eliminar producto</button>
                 </div>`
     });
     products.innerHTML=productos

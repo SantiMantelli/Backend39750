@@ -1,16 +1,12 @@
 import { Console } from "console";
 import fs from "fs";
+import prodModel from "../DAO/models/products.model.js";
 
 class ProductManager {
   constructor() {
     this.products = [];
     this.path = "./DAO/productos.json";
   }
-
-  __appendProduct = async () => {
-    const toJSON = JSON.stringify(this.products, null, 2);
-    await fs.promises.writeFile(this.path, toJSON);
-  };
 
   addProduct = async (
       title,
@@ -22,9 +18,6 @@ class ProductManager {
       code,
       stock,
   ) => {
-    const productsFS = await this.getProducts();
-    /*console.log(productsFS); */
-    this.products = productsFS;
 
     const product = {
       title,
@@ -38,46 +31,42 @@ class ProductManager {
     };
 
     // Validacion de codigo
-    const validarCodigo = this.products.find(
-      (productos) => productos.code === product.code
-    );
-    if (validarCodigo) {
+    const validarCodigo = await prodModel.productsModel.find({ code: { $eq: product.code } });
+    if (validarCodigo.length !== 0) {
       return {
         status: "error",
         message: "El producto no se pudo agregar porque el codigo es repetido",
       };
     }
-    // ID Autoincremental
-    if (this.products.length === 0) {
-      product.id = 1;
-    } else {
-      product.id = this.products[this.products.length - 1].id + 1;
-    }
 
-    // Verifica que el objeto tenga todos sus valores
-
-    if (Object.values(product).every((value) => value)) {
-      product.status === "false"
-        ? (product.status = false)
-        : (product.status = true);
-      product.price = Number(product.price);
-      product.stock = Number(product.stock);
-      this.products.push(product);
-      this.__appendProduct();
+    const newProduct = new prodModel.productsModel({
+      title: product.title,
+      category:product.category,
+      description:product.description,
+      price:product.price,
+      code:product.code,
+      stock:product.stock,
+    });
+    
+    try {
+      const savedProduct = await newProduct.save();
       return {
         status: "succes",
         message: "El producto se registró",
-        producto: product,
+        producto: savedProduct,
       };
+    } catch (err) {
+      console.log(err);
     }
-    return { status: "error", message: "Todos los campos son obligatorios" };
+    
+    
   };
 
   getProducts = async () => {
     try {
-      const getFileProducts = await fs.promises.readFile(this.path, "utf-8");
-      if (getFileProducts.length === 0) return [];
-      return JSON.parse(getFileProducts);
+        let products = await prodModel.productsModel.find().lean()
+      if (products.length === 0) return [];
+      return products;
     } catch (err) {
       console.log(err);
       return { status: "error", error: err };
@@ -85,67 +74,58 @@ class ProductManager {
   };
 
   getProductById = async (id) => {
+    /* http://localhost:8080/api/products/6457ffd9574b5c9a0b143e3c */
     try {
-      const getFileProducts = await fs.promises.readFile(this.path, "utf-8");
-      const parseProducts = JSON.parse(getFileProducts);
-      const product = parseProducts.find((product) => product.id == id);
-      if (!product) return "Error! No existe";
-      return product;
+      let products = await prodModel.productsModel.findById(id);
+      if (!products) return [];
+      return products;
     } catch (err) {
       console.log(err);
+      return { status: "error", error: err };
     }
   };
+  
   
 
   updateProduct = async (pid, data) => {
-    const getFileProducts = await fs.promises.readFile(this.path, "utf-8");
-    const parseProducts = JSON.parse(getFileProducts);
-    /* console.log(parseProducts); */
-    if (isNaN(Number(pid)))
-      return { status: "error", message: "No es un id válido" };
 
-      const findId = parseProducts.findIndex((product) => product.id == pid);
-      if (findId === -1)
-        return { status: "error", message: "No se encontró el id" };
-        
-    this.products = parseProducts.map((product) => {
-      if (product.id == pid) {
-        product = Object.assign(product, data);
-        return product;
-      }
-      return product;
-    });
+    const validarCodigo = await prodModel.productsModel.findById(pid);
+    if (validarCodigo.length === 0) {
+      return {
+        status: "error",
+        message: "El producto no existe",
+      };
+    }
+
+    try {
+      const updatedProduct = await prodModel.productsModel.updateOne(
+        { _id: pid },
+        { $set: {title:data.title,
+          category:data.category,
+          description:data.description,
+          price:data.price,
+          code:data.code,
+          stock:data.stock}}
+      );
+      return {
+        status: "succes",
+        message: "El producto se actualizo",
+        producto: updatedProduct,
+      };
+    } catch (err) {
+      console.log(err);
+    }
+
     
-    this.__appendProduct();
-    return {
-      status: "success",
-      message: `Se actualizo el producto con id ${pid}`,
-    };
   };
 
   deleteProduct = async (pid) => {
-    const getFileProducts = await fs.promises.readFile(this.path, "utf-8");
-    const parseProducts = JSON.parse(getFileProducts);
-  
-    if (isNaN(Number(pid))) {
-      return { status: "error", message: "No es un id válido" };
+    try {
+      const deletedProduct = await prodModel.productsModel.deleteOne({ _id: pid });
+      console.log(deletedProduct); 
+    } catch (err) {
+      console.log(err);
     }
-  
-    const productIndex = parseProducts.findIndex((product) => product.id == pid);
-  
-    if (productIndex !== -1) {
-      // Si se encuentra el producto, eliminarlo del array
-      parseProducts.splice(productIndex, 1);
-      this.products = parseProducts; // Actualizar la lista de productos
-    } else {
-      return { status: "error", message: "No se encontró el id" };
-    }
-
-    this.__appendProduct();
-    return {
-      status: "success",
-      message: `Se eliminó el producto con id ${pid}`,
-    };
   };
 }
 

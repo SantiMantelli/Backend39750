@@ -2,6 +2,8 @@ import { Router } from "express";
 import ProductManager from "../DAO/productManager.js";
 import uploader from "../utils/multer.utils.js";
 
+
+
 const router = Router();
 const pm = new ProductManager();
 
@@ -22,6 +24,9 @@ router.get("/", async (req, res) => {
     res.status(400).send({ status: "error router", err });
   }
 });
+
+
+
 
 router.get("/:pid", async (req, res) => {
   try {
@@ -56,7 +61,6 @@ router.post("/formulario", uploader.single("thumbnail"), async (req, res) => {
       code,
       stock
     );
-    console.log(valueReturned);
     // Si addProduct devuelve un objeto con la propiedad error quiere decir que hay un error
     if (valueReturned.status === "error")
       return res.status(400).send({ valueReturned });

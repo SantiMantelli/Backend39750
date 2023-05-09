@@ -4,6 +4,20 @@ import CartManager from "../DAO/cartsManager.js";
 const routerCart = Router();
 const carts = new CartManager();
 
+routerCart.get("/", async (req, res) => {
+  try {
+    const valueReturned = await carts.getCarts();
+    if (valueReturned.error)
+      return res.status(200).send({ status: "Sin carritos", valueReturned });
+
+    res.status(200).send({ status: "Carritos", valueReturned });
+  } catch (err) {
+    res.status(400).send({ status: "error router", err });
+  }
+});
+
+
+
 routerCart.get("/:cid", async (req, res) => {
   const { cid } = req.params;
   try {
@@ -63,38 +77,17 @@ routerCart.post("/", async (req, res) => {
 .then(res => res.json())
 .then(console.log) */
 
-routerCart.post("/:cid/product/:pid", async (req, res) => {
+routerCart.post("/:cid/product/:pid/cantidad/:qt", async (req, res) => {
   try {
-    let producto = {};
-    const { cid, pid } = req.params;
-
-    producto["idProduct"] = Number(pid);
-    producto["cantidad"] = 1;
+    const { cid, pid, qt } = req.params;
 
     const carrito = await carts.getCartById(cid);
     if (carrito.error) return res.status(400).send({ carrito });
 
-    let productoEncontrado = carrito.productos.findIndex(
-      (productos) => productos.idProduct == pid
-    );
-    console.log(productoEncontrado, 'encontrado')
+    const updatedCarrito = await carts.updateCart(cid, pid, qt);
 
-    if (productoEncontrado !== -1) {
-      // carrito.productos[productoEncontrado]
-      carrito.productos[productoEncontrado].cantidad =
-        Number(carrito.productos[productoEncontrado].cantidad) + 1;
-      await carts.updateCart(cid, carrito);
-      return res
-        .status(200)
-        .send({ statusbar: "success", message: "producto agregado" });
-    }
-    carrito.productos.push(producto);
-    await carts.updateCart(cid, carrito);
-    res.status(200).send({
-      status: "success",
-      message: "Producto agregado",
-      carrito: carrito.productos,
-    });
+    return updatedCarrito
+    
   } catch (err) {
     return res
       .status(400)

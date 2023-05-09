@@ -1,4 +1,5 @@
 import fs from "fs";
+import cm from "../DAO/models/carts.model.js";
 
 class CartManager {
   constructor() {
@@ -35,57 +36,50 @@ class CartManager {
     }
   };
 
+
   getCarts = async () => {
     try {
-      const getFileCarts = await fs.promises.readFile(this.path, "utf-8");
-      if (getFileCarts.length === 0) return [];
-      return JSON.parse(getFileCarts);
+      const carts = await cm.cartsModel.find().lean()
+      if (carts.length === 0) return 'Carritos inexistentes';
+      return carts
     } catch (err) {
-      console.log(err);
       return { status: "error", error: err };
     }
   };
 
   getCartById = async (id) => {
     try {
-      const getFileCarts = await fs.promises.readFile(this.path, "utf-8");
-      const parseCarts = JSON.parse(getFileCarts);
-      // console.log(parseCarts[id - 1]);
-      if (!parseCarts[id - 1]) return { error: "Error! El carrito No existe" };
-
-      return parseCarts[id - 1];
+      const carts = await cm.cartsModel.findById(id)
+      if (carts.length === 0) return 'El carrito no existe';
+      return carts
     } catch (err) {
-      console.log(err);
+      return { status: "error", error: err };
     }
   };
 
-  updateCart = async (cid, data) => {
-    try {
-      const getFileCarts = await fs.promises.readFile(this.path, "utf-8");
-      const parseCarts = JSON.parse(getFileCarts);
-      if (isNaN(Number(cid)))
-        return { status: "error", message: "No es un id válido" };
+  updateCart = async (cid, productId, quantity) => {
+try {
+  const cart = await cm.cartsModel.findById(cid);
+  if (cart.length === 0) {
+    return {
+      status: "error",
+      message: "El carrito no existe",
+    };
+  }
 
-      const findId = parseCarts.findIndex((cart) => cart.id == cid);
-      if (findId === -1)
-        return { status: "error", message: "No se encontró el id" };
+  cart.products.push({ product: productId, quantity: quantity });
+  
+  // Guarda los cambios en la base de datos
+  await cart.save();
 
-      this.carts = parseCarts.map((element) => {
-        if (element.id == cid) {
-          element = Object.assign(element, data);
-          return element;
-        }
-        return element;
-      });
+  return cart;
 
-      this.__appendCart();
-      return {
-        status: "success",
-        message: `Se actualizo el carrito ${cid}`,
-      };
-    } catch (err) {
-      console.log(err);
-    }
+} catch (error) {
+  return res
+      .status(400)
+      .send({ status: "error", message: "error de parametros" });
+}
+
   };
 }
 

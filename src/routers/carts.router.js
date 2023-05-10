@@ -33,21 +33,10 @@ routerCart.get("/:cid", async (req, res) => {
 
 routerCart.post("/", async (req, res) => {
   try {
-    // Obtenemos el body
-    const cart = req.body;
-    console.log(req.body)
-    // Comprobamos que todos los campos estén completos
-    const campoVacio = Object.values(cart).find((value) => value === "");
-    if (campoVacio) {
-      return res
-        .status(400)
-        .send({ status: "error", message: "Falta completar algún campo" });
-    }
-
-    // Si addProduct devuelve un objeto con la propiedad error quiere decir que hay un error
-    if (cart.status === "error") return res.status(400).send({ valueReturned });
-    await carts.addCart(cart);
-    res.status(200).send({ cart });
+    const cart = req.body.products;
+    console.log(req.body.products)
+    const newCart = await carts.addCart(cart);
+    res.status(200).send({ newCart });
   } catch (err) {
     console.log(err);
   }
@@ -58,14 +47,14 @@ routerCart.post("/", async (req, res) => {
 /* fetch('http://localhost:8080/api/carts/', {
   method: 'POST',
   body: JSON.stringify({
-    productos:[
+    products:[
       {
-        "idProduct": 8,
-        "cantidad": 2
+        "product": '6457ffd9574b5c9a0b143e35',
+        "quantity": 5
       },
       {
-        "idProduct": 6,
-        "cantidad": 12
+        "product": '6457ffd9574b5c9a0b143e3b',
+        "quantity": 9
       }
     ],
       
@@ -80,24 +69,17 @@ routerCart.post("/", async (req, res) => {
 routerCart.post("/:cid/product/:pid/cantidad/:qt", async (req, res) => {
   try {
     const { cid, pid, qt } = req.params;
-
-    const carrito = await carts.getCartById(cid);
-    if (carrito.error) return res.status(400).send({ carrito });
-
-    const updatedCarrito = await carts.updateCart(cid, pid, qt);
-
-    return updatedCarrito
-    
-  } catch (err) {
-    return res
-      .status(400)
-      .send({ status: "error", message: "error de parametros" });
+    const updatedCart = await carts.updateCart(cid, pid, qt);
+    res.json(updatedCart);
+  } catch (error) {
+    res.status(400).json({ message: 'No se pudo actualizar el carrito', error });
   }
+
 });
 
-/* Codigo para agregar un producto a tal carrito */
+/* Codigo para sumar cantidad de un producto a tal carrito */
 
-/* fetch('http://localhost:8080/api/carts/2/product/3', {
+/* fetch('http://localhost:8080/api/carts/645acd18ce804bd514e4c6dc/product/6457ffd9574b5c9a0b143e3b/cantidad/10', {
   method: 'POST',
 
   headers: {

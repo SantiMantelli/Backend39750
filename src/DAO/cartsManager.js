@@ -6,31 +6,12 @@ class CartManager {
     this.carts = [];
     this.path = "./DAO/carts.json";
   }
-  __appendCart = async () => {
-    const toJSON = JSON.stringify(this.carts, null, 2);
-    await fs.promises.writeFile(this.path, toJSON);
-  };
 
   addCart = async (newCart) => {
     try {
-      const carts = await this.getCarts();
-      // console.log(carts);
-      this.carts = carts;
-
-      //ID autoincremental
-      if (this.carts.length === 0) {
-        newCart.id = 1;
-      } else {
-        newCart.id = this.carts[this.carts.length - 1].id + 1;
-      }
-
-      if (Object.values(newCart).every((value) => value)) {
-        this.carts.push(newCart);
-        const toJSON = JSON.stringify(this.carts, null, 2);
-        await fs.promises.writeFile(this.path, toJSON);
-      }
-
-      return [];
+      const cart = new cm.cartsModel({products: newCart });
+      const savedCart = await cart.save();
+      return savedCart;
     } catch (err) {
       console.log(err);
     }
@@ -57,28 +38,29 @@ class CartManager {
     }
   };
 
-  updateCart = async (cid, productId, quantity) => {
-try {
-  const cart = await cm.cartsModel.findById(cid);
-  if (cart.length === 0) {
-    return {
-      status: "error",
-      message: "El carrito no existe",
-    };
-  }
-
-  cart.products.push({ product: productId, quantity: quantity });
-  
-  // Guarda los cambios en la base de datos
-  await cart.save();
-
-  return cart;
-
-} catch (error) {
-  return res
-      .status(400)
-      .send({ status: "error", message: "error de parametros" });
-}
+  updateCart = async (cid, pid, qt) => {
+    try {
+      const existingCart = await cm.cartsModel.findById(cid);
+      if (existingCart) {
+        // Busca si el producto ya está en el carrito
+        const productIndex = existingCart.products.findIndex(
+          (p) => p.product._id.toString() === pid
+        );
+        if (productIndex !== -1) {
+          // Si el producto ya está en el carrito, actualiza la cantidad
+          existingCart.products[productIndex].quantity = parseInt(existingCart.products[productIndex].quantity) + parseInt(qt);
+        } else {
+          // Si el producto no está en el carrito, agrégalo
+          existingCart.products.push({ product: pid, qt });
+        }
+        const updatedCart = await existingCart.save();
+        return updatedCart;
+      } else {
+        return 'No se encontro el id del carrito'
+      }
+    } catch (error) {
+      return { status: "error", error: err };
+    }
 
   };
 }

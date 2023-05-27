@@ -1,6 +1,8 @@
 import fs from "fs";
 import cm from "../DAO/models/carts.model.js";
 
+const cModel = cm.cartsModel;
+
 class CartManager {
   constructor() {
     this.carts = [];
@@ -9,7 +11,7 @@ class CartManager {
 
   addCart = async (newCart) => {
     try {
-      const cart = new cm.cartsModel({products: newCart });
+      const cart = new cModel({products: newCart });
       const savedCart = await cart.save();
       return savedCart;
     } catch (err) {
@@ -20,7 +22,7 @@ class CartManager {
 
   getCarts = async () => {
     try {
-      const carts = await cm.cartsModel.find().lean()
+      const carts = await cModel.find().lean()
       if (carts.length === 0) return 'Carritos inexistentes';
       return carts
     } catch (err) {
@@ -30,17 +32,21 @@ class CartManager {
 
   getCartById = async (id) => {
     try {
-      const carts = await cm.cartsModel.findById(id)
-      if (carts.length === 0) return 'El carrito no existe';
-      return carts
+      let product = await cModel.findById(id);
+      if (!product) {
+        throw new Error("Carrito no encontrado");
+      }
+      return product;
     } catch (err) {
-      return { status: "error", error: err };
+      console.log(err);
+      throw new Error("Error al obtener el carrito");
     }
   };
 
   updateCart = async (cid, pid, qt) => {
     try {
-      const existingCart = await cm.cartsModel.findById(cid);
+      const existingCart = await cModel.findById(cid);
+      console.log(qt)
       if (existingCart) {
         // Busca si el producto ya está en el carrito
         const productIndex = existingCart.products.findIndex(
@@ -51,7 +57,7 @@ class CartManager {
           existingCart.products[productIndex].quantity = parseInt(existingCart.products[productIndex].quantity) + parseInt(qt);
         } else {
           // Si el producto no está en el carrito, agrégalo
-          existingCart.products.push({ product: pid, qt });
+          existingCart.products.push({ product: pid, quantity:qt });
         }
         const updatedCart = await existingCart.save();
         return updatedCart;
@@ -63,6 +69,34 @@ class CartManager {
     }
 
   };
+
+  deleteProductInCart = async (cid, products) => {
+    try {
+        return await cModel.findOneAndUpdate(
+            { _id: cid },
+            { products },
+            { new: true })
+
+    } catch (err) {
+        return err
+    }
+
+}
+
+deleteAllProductsInCart = async (cid) => {
+  try {
+    return await cModel.findOneAndUpdate(
+      { _id: cid },
+      { products: [] },
+      { new: true }
+    );
+  } catch (err) {
+    return err;
+  }
+};
+
+
+
 }
 
 /* const carritos = new CartManager(); */

@@ -2,6 +2,8 @@ import { Console } from "console";
 import fs from "fs";
 import prodModel from "../DAO/models/products.model.js";
 
+const prModel = prodModel.productsModel;
+
 class ProductManager {
   constructor() {
     this.products = [];
@@ -31,7 +33,7 @@ class ProductManager {
     };
 
     // Validacion de codigo
-    const validarCodigo = await prodModel.productsModel.find({ code: { $eq: product.code } });
+    const validarCodigo = await prModel.find({ code: { $eq: product.code } });
     if (validarCodigo.length !== 0) {
       return {
         status: "error",
@@ -39,7 +41,7 @@ class ProductManager {
       };
     }
 
-    const newProduct = new prodModel.productsModel({
+    const newProduct = new prModel({
       title: product.title,
       category:product.category,
       description:product.description,
@@ -62,34 +64,35 @@ class ProductManager {
     
   };
 
-  getProducts = async () => {
+  getProducts = async (filter, options) => {
     try {
-        let products = await prodModel.productsModel.find().lean()
-      if (products.length === 0) return [];
-      return products;
-    } catch (err) {
-      console.log(err);
-      return { status: "error", error: err };
-    }
-  };
+        return await prModel.paginate(filter, options);
 
-  getProductById = async (id) => {
-    /* http://localhost:8080/api/products/6457ffd9574b5c9a0b143e3c */
-    try {
-      let products = await prodModel.productsModel.findById(id);
-      if (!products) return [];
-      return products;
     } catch (err) {
-      console.log(err);
-      return { status: "error", error: err };
+        return err
     }
-  };
+}
+
+  
+getProductById = async (id) => {
+  try {
+    let product = await prModel.findById(id);
+    if (!product) {
+      throw new Error("Producto no encontrado");
+    }
+    return product;
+  } catch (err) {
+    console.log(err);
+    throw new Error("Error al obtener el producto");
+  }
+};
+
   
   
 
   updateProduct = async (pid, data) => {
 
-    const validarCodigo = await prodModel.productsModel.findById(pid);
+    const validarCodigo = await prModel.findById(pid);
     if (validarCodigo.length === 0) {
       return {
         status: "error",
@@ -98,7 +101,7 @@ class ProductManager {
     }
 
     try {
-      const updatedProduct = await prodModel.productsModel.updateOne(
+      const updatedProduct = await prModel.updateOne(
         { _id: pid },
         { $set: {title:data.title,
           category:data.category,
@@ -121,12 +124,34 @@ class ProductManager {
 
   deleteProduct = async (pid) => {
     try {
-      const deletedProduct = await prodModel.productsModel.deleteOne({ _id: pid });
+      const deletedProduct = await prModel.deleteOne({ _id: pid });
       console.log(deletedProduct); 
     } catch (err) {
       console.log(err);
     }
   };
+
+  categories = async () => {
+    try {
+        const categories = await prModel.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    categories: { $addToSet: "$category" }
+                }
+            }
+        ])
+
+        return categories[0].categories
+
+    }
+    catch (err) {
+        console.log(err);
+        return err
+    }
+
+}
+
 }
 
 /* const product = new ProductManager(); */

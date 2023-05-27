@@ -9,31 +9,72 @@ const pm = new ProductManager();
 
 //  GET  //
 
-router.get("/", async (req, res) => {
-  // http://localhost:8080/products?limit=2
-  const { limit } = req.query;
+router.get('/', async (request, response) => {
   try {
-    if (isNaN(Number(limit)) && limit)
-    return res.status(400).send({ status: "No es un numero valido" });
-    const valueReturned = await pm.getProducts();
-    if (valueReturned.error)
-      return res.status(200).send({ status: "Sin productos", valueReturned });
-    const limitProducts = valueReturned.slice(0, limit);
-    res.render("products", { limitProducts }); // Renderizar la vista "home" y pasarle los datos "limitProducts"
+      let { limit, page, sort, category } = request.query
+      console.log(request.originalUrl);
+
+      const options = {
+          page: Number(page) || 1,
+          limit: Number(limit) || 10,
+          sort: {}
+      };
+
+      if (sort === "desc") {
+        options.sort.price = -1;
+      } else if (sort === "asc") {
+        options.sort.price = 1;
+      }
+      
+
+
+      const links = (products) => {
+          let prevLink;
+          let nextLink;
+          if (request.originalUrl.includes('page')) {
+              prevLink = products.hasPrevPage ? request.originalUrl.replace(`page=${products.page}`, `page=${products.prevPage}`) : null;
+              nextLink = products.hasNextPage ? request.originalUrl.replace(`page=${products.page}`, `page=${products.nextPage}`) : null;
+              return { prevLink, nextLink };
+          }
+          if (!request.originalUrl.includes('?')) {
+              prevLink = products.hasPrevPage ? request.originalUrl.concat(`?page=${products.prevPage}`) : null;
+              nextLink = products.hasNextPage ? request.originalUrl.concat(`?page=${products.nextPage}`) : null;
+              return { prevLink, nextLink };
+          }
+          prevLink = products.hasPrevPage ? request.originalUrl.concat(`&page=${products.prevPage}`) : null;
+          nextLink = products.hasNextPage ? request.originalUrl.concat(`&page=${products.nextPage}`) : null;
+          return { prevLink, nextLink };
+
+      }
+
+      const categories = await pm.categories()
+
+      const result = categories.some(categ => categ === category)
+      if (result) {
+
+          const products = await pm.getProducts({ category }, options);
+          const { prevLink, nextLink } = links(products);
+          const { totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, docs } = products
+          return response.status(200).send({ status: 'success', payload: docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink });
+      }
+
+      const products = await pm.getProducts({}, options);
+      console.log(products, 'Product');
+      const { totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, docs } = products
+      const { prevLink, nextLink } = links(products);
+      return response.status(200).send({ status: 'success', payload: docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink });
   } catch (err) {
-    res.status(400).send({ status: "error router", err });
+      console.log(err);
   }
-});
-
-
-
+})
 
 router.get("/:pid", async (req, res) => {
   try {
     // http://localhost:8080/products/2
     console.log(req.params.pid);
     const product = await pm.getProductById(req.params.pid);
-    res.status(200).send({ product });
+    if (product.message) return res.status(404).send({ message: `ID: ${req.params.pid} no encontrado` })
+    return res.status(200).send({ product });
   } catch (err) {
     console.log(err);
   }
@@ -111,6 +152,22 @@ router.put("/:pid", async (req, res) => {
 })
 .then(res => res.json())
 .then(console.log) */
+
+/* Intento para views con paginacion /products */
+/* router.get('/products', async (req, res) => {
+  try {
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
+
+    // Aquí debes obtener los productos de tu fuente de datos
+    const products = await pm.getProducts(page, limit);
+
+    return res.render('products', { products });
+  } catch (err) {
+    res.status(500).json({ error: 'Error al obtener los productos' });
+  }
+}); */
+
 
 
 

@@ -1,8 +1,10 @@
 import { Router } from "express";
 import CartManager from "../DAO/cartsManager.js";
+import ProductManager from "../DAO/productManager.js";
 
 const routerCart = Router();
 const carts = new CartManager();
+const pm = new ProductManager();
 
 routerCart.get("/", async (req, res) => {
   try {
@@ -88,5 +90,40 @@ routerCart.post("/:cid/product/:pid/cantidad/:qt", async (req, res) => {
 })
 .then(res => res.json())
 .then(console.log) */
+
+routerCart.delete('/:cid/product/:pid', async (req, res) =>{
+  try {
+      
+      const { cid, pid } = req.params
+      const checkIdProduct = await pm.getProductById(pid);
+
+      const checkIdCart = await carts.getCartById(cid)
+      const findProduct = checkIdCart.products.findIndex((element) => element.product._id.toString() === checkIdProduct._id.toString())
+  
+      if(findProduct === -1) return res.status(404).send({error: `El producto con el id: ${pid} no fue encontrado con el carrito`})
+      
+      checkIdCart.products.splice(findProduct, 1)
+      
+      const cart = await carts.deleteProductInCart(cid, checkIdCart.products)    
+  
+      return res.status(200).send({status:'success', message:`Producto eliminado: ID: ${pid}`, cart })
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+})
+
+routerCart.delete('/:cid', async (req, res) => {
+  try {
+    const { cid } = req.params;
+    console.log(cid)
+    const checkIdCart = await carts.getCartById(cid);
+    await carts.deleteAllProductsInCart(cid);
+
+    return res.status(200).send({ status: 'success', message: 'Todos los productos fueron eliminados' });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 
 export default routerCart;

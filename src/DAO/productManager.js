@@ -66,7 +66,10 @@ class ProductManager {
 
   getProducts = async (filter, options) => {
     try {
-        return await prModel.paginate(filter, options);
+      const result = await prModel.paginate(filter, options);
+      result.docs = result.docs.map(doc => doc.toObject({ lean: true }));
+      return result;
+      
 
     } catch (err) {
         return err

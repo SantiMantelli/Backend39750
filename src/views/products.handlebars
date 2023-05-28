@@ -1,4 +1,61 @@
-<h1>Autos en stock</h1>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Productos</title>
+</head>
+<body>
+<h1>Lista de productos en stock</h1>
+
+{{#each docs}}
+    <div>
+        <h2>{{title}}</h2>
+        <p>Categoría: {{category}}</p>
+        <p>Descripción: {{description}}</p>
+        <p>Precio: ${{price}}</p>
+        <p>Stock disponible: {{stock}}</p>
+        <button onclick="addToCart('{{_id}}')">Añadir al carrito</button>
+    </div>
+{{/each}}
+
+{{#if hasNextPage}}
+    <a href="{{nextLink}}">Siguiente página</a>
+{{/if}}
+
+{{#if hasPrevPage}}
+    <a href="{{prevLink}}">Anterior página</a>
+{{/if}}
+
+<script>
+    function addToCart(productId) {
+        console.log('Añadir al carrito:', productId);
+    fetch(`http://localhost:8080/api/carts/645acd18ce804bd514e4c6dc/product/${productId}/cantidad/10`, {
+    method: 'POST',
+
+    headers: {
+    'Content-type': 'application/json; charset=UTF-8'
+}
+})
+.then(res => res.json())
+.then(console.log)
+        .catch(error => {
+            console.log('Error al agregar el producto al carrito:', error);
+        });
+    }
+</script>
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+{{!-- <h1>Autos en stock</h1>
 
 <div>
     {{#each limitProducts }}
@@ -33,24 +90,8 @@
 
         </ul>
     {{/each}}
-</div>
+</div> --}}
 
 
-{{!-- 
-<!DOCTYPE html>
-<html>
-<head>
-<title>Productos</title>
-</head>
-<body>
-<h1>Lista de productos</h1>
-{{#each products}}
-    <div>
-        <h2>{{title}}</h2>
-        <p>Categoría: {{category}}</p>
-        <p>Descripción: {{description}}</p>
-        <p>Precio: {{price}}</p>
-    </div>
-{{/each}}
-</body>
-</html> --}}
+
+

@@ -19,7 +19,6 @@ routerCart.get("/", async (req, res) => {
 });
 
 
-
 routerCart.get("/:cid", async (req, res) => {
   const { cid } = req.params;
   try {

@@ -59,10 +59,11 @@ router.get('/', async (request, response) => {
       }
 
       const products = await pm.getProducts({}, options);
-      console.log(products, 'Product');
+      console.log(products)
       const { totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, docs } = products
       const { prevLink, nextLink } = links(products);
-      return response.status(200).send({ status: 'success', payload: docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink });
+      return response.render('products', { status: 'success', docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink }); 
+      /* return response.status(200).send({ status: 'success', payload: docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink }); */
   } catch (err) {
       console.log(err);
   }

@@ -2,12 +2,13 @@ import express from "express";
 import objectConfig from "../src/config/object.config.js";
 import productRouter from "../src/routers/products.router.js";
 import routerCart from "./routers/carts.router.js";
+import routerUser from "./routers/users.router.js"
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import handlebars from 'express-handlebars';
 import ProductManager from './DAO/productManager.js';
 import {Server} from 'socket.io';
-
+import session from 'express-session';
 
 const pm = new ProductManager();
 
@@ -17,6 +18,16 @@ const httpServer = app.listen(8080, () => {
     
     console.log('Escuchando el puerto 8080');
 });
+
+
+
+app.use(session({
+    secret: 'erwqhkfkj43%REfgskdjglkjre',
+    resave: false,
+    saveUninitialized: false
+}));
+
+
 
 const socketServer = new Server(httpServer)
 
@@ -82,12 +93,9 @@ const BASE_URL = '/api';
 // Usa la ruta base para tus endpoints
 app.use(`${BASE_URL}/carts`, routerCart);
 app.use(`${BASE_URL}/products`, productRouter);
+app.use('/', routerUser);
 
 
-
-app.use('/', (req, res) => {
-    res.render('realTimeProducts', {})
-})
 
 
 

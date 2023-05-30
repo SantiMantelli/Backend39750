@@ -4,7 +4,9 @@
 <title>Productos</title>
 </head>
 <body>
-<h1>Lista de productos en stock</h1>
+<h1>Lista de productos en stock{{#if user}}
+    de {{user}}
+{{/if}}</h1>
 
 {{#each docs}}
     <div>
@@ -24,6 +26,7 @@
 {{#if hasPrevPage}}
     <a href="{{prevLink}}">Anterior página</a>
 {{/if}}
+
 
 <script>
     function addToCart(productId) {

@@ -12,8 +12,7 @@ const pm = new ProductManager();
 router.get('/', async (request, response) => {
   try {
       let { limit, page, sort, category } = request.query
-      console.log(request.originalUrl);
-
+      const user = request.session.user;
       const options = {
           page: Number(page) || 1,
           limit: Number(limit) || 10,
@@ -48,21 +47,19 @@ router.get('/', async (request, response) => {
       }
 
       const categories = await pm.categories()
-
       const result = categories.some(categ => categ === category)
       if (result) {
 
           const products = await pm.getProducts({ category }, options);
           const { prevLink, nextLink } = links(products);
           const { totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, docs } = products
-          return response.status(200).send({ status: 'success', payload: docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink });
+          return response.render('products', { status: 'success', docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink, user: `${user.user.first_name} ${user.user.last_name}` });
       }
 
       const products = await pm.getProducts({}, options);
-      console.log(products)
       const { totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, docs } = products
       const { prevLink, nextLink } = links(products);
-      return response.render('products', { status: 'success', docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink }); 
+      return response.render('products', { status: 'success', docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink, user: `${user.user.first_name} ${user.user.last_name}` }); 
       /* return response.status(200).send({ status: 'success', payload: docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink }); */
   } catch (err) {
       console.log(err);
@@ -140,36 +137,5 @@ router.put("/:pid", async (req, res) => {
     console.log(err);
   }
 });
-
-/* Codigo para modificar algun producto */
-/* fetch('http://localhost:8080/api/products/6', {
-  method: 'PUT',
-  body: JSON.stringify({
-    title: 'Fiat Cronos',
-  }),
-  headers: {
-    'Content-type': 'application/json; charset=UTF-8'
-  }
-})
-.then(res => res.json())
-.then(console.log) */
-
-/* Intento para views con paginacion /products */
-/* router.get('/products', async (req, res) => {
-  try {
-    const page = req.query.page || 1;
-    const limit = req.query.limit || 10;
-
-    // Aquí debes obtener los productos de tu fuente de datos
-    const products = await pm.getProducts(page, limit);
-
-    return res.render('products', { products });
-  } catch (err) {
-    res.status(500).json({ error: 'Error al obtener los productos' });
-  }
-}); */
-
-
-
 
 export default router;

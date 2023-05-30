@@ -60,7 +60,6 @@ router.get('/', async (request, response) => {
       const { totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, docs } = products
       const { prevLink, nextLink } = links(products);
       return response.render('products', { status: 'success', docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink, user: `${user.user.first_name} ${user.user.last_name}` }); 
-      /* return response.status(200).send({ status: 'success', payload: docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink }); */
   } catch (err) {
       console.log(err);
   }
